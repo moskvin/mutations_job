@@ -18,7 +18,7 @@ class DummyCommand < Mutations::Job
     self.class.job_executed = true
   end
 
-  def self.job_executed=val
+  def self.job_executed=(val)
     @job_executed = val
   end
 
@@ -47,8 +47,9 @@ RSpec.describe Mutations::Job do
 
   context 'with invalid inputs' do
     it 'with validation' do
-      expect { DummyCommand.perform_async }.to raise_error(Mutations::ValidationException)
-      expect { DummyCommand.perform_async(raise_error: true) }.to raise_error(Mutations::ValidationException)
+      expect { DummyCommand.perform_async }.to raise_error(Mutations::ValidationException, 'Name is required')
+      expect { DummyCommand.perform_async(name: 'Required name', raise_error: true) }
+        .to raise_error(RuntimeError, 'Execute error')
     end
 
     it 'without validation' do
