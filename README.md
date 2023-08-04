@@ -14,8 +14,10 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 ## Usage
 
+You can use `Mutations::Job` and then call `perform` method on it.
+
 ```ruby
-class AsyncServiceJob < Mutations::Job
+class MyService < Mutations::Job
   required do
     string :name
   end
@@ -27,6 +29,8 @@ class AsyncServiceJob < Mutations::Job
     puts "Run #{[name, description].compact.join(' ')}"
   end
 end
+
+MyService.perform_async(name: 'MyService', description: 'is running')
 ```
 
 ## Development

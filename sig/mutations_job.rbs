@@ -1,4 +1,9 @@
 module MutationsJob
   VERSION: String
-  # See the writing guide of rbs: https://github.com/ruby/rbs#guides
+end
+
+module Mutations
+  module Job
+    def self.perform_async: (?validate: bool) -> untyped
+  end
 end
