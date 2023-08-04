@@ -10,14 +10,14 @@ Gem::Specification.new do |spec|
 
   spec.summary = 'Just simple glue between Mutations properties and Sidekiq jobs.'
   spec.description = 'This project aims to create a seamless and straightforward connection, or "glue," between Mutations properties and Sidekiq jobs. Mutations, often used in Ruby on Rails applications, are responsible for handling data input and validation. On the other hand, Sidekiq is a popular background job processing library used to execute time-consuming tasks asynchronously.'
-  spec.homepage = 'https://github.com/nmoskvin/mutations_job'
+  spec.homepage = 'https://github.com/moskvin/mutations_job'
   spec.required_ruby_version = '>= 3.2.0'
 
-  spec.metadata['allowed_push_host'] = 'https://github.com/nmoskvin/mutations_job'
+  spec.metadata['allowed_push_host'] = 'https://github.com/moskvin/mutations_job'
 
   spec.metadata['homepage_uri'] = spec.homepage
-  spec.metadata['source_code_uri'] = 'https://github.com/nmoskvin/mutations_job'
-  spec.metadata['changelog_uri'] = 'https://github.com/nmoskvin/mutations_job/CHANGELOG.md'
+  spec.metadata['source_code_uri'] = 'https://github.com/moskvin/mutations_job'
+  spec.metadata['changelog_uri'] = 'https://github.com/moskvin/mutations_job/CHANGELOG.md'
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
