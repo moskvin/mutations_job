@@ -8,9 +8,15 @@ module Mutations
   class Job < Mutations::Command
     # Create a job class dynamically and perform it asynchronously
     def self.perform_async(validate: true, **args)
-      job_name = "#{name}Job"
+      to_job.perform_async(job_args(validate:, **args))
+    end
 
-      Object.const_defined?(job_name) || Object.const_set(job_name, Class.new do
+    def self.perform_in(interval, validate: true, **args)
+      to_job.perform_in(interval, job_args(validate:, **args))
+    end
+
+    def self.new_job_class
+      Class.new do
         include Sidekiq::Job
 
         def perform(payload)
@@ -24,10 +30,17 @@ module Mutations
         rescue StandardError
           raise if payload['validate']
         end
-      end)
+      end
+    end
 
-      payload = args.to_json
-      job_name.constantize.perform_async({ validate:, payload: }.stringify_keys)
+    def self.to_job
+      job_name = "#{name}Job"
+      Object.const_defined?(job_name) || Object.const_set(job_name, new_job_class)
+      job_name.constantize
+    end
+
+    def self.job_args(validate: true, **args)
+      { validate:, payload: args.to_json }.stringify_keys
     end
   end
 end

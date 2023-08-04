@@ -59,4 +59,18 @@ RSpec.describe Mutations::Job do
       expect(DummyCommand.job_executed?).to eq(false)
     end
   end
+
+  context 'with delayed run' do
+    it 'with validation' do
+      expect(DummyCommand.job_executed?).to eq(false)
+      DummyCommand.perform_in(0.1, name: 'exec_and_validate', value: 'execute and validate')
+      expect(DummyCommand.job_executed?).to eq(true)
+    end
+
+    it 'without validation' do
+      expect(DummyCommand.job_executed?).to eq(false)
+      DummyCommand.perform_in(0.1, name: 'exec_only', value: 'just execute', validate: false)
+      expect(DummyCommand.job_executed?).to eq(true)
+    end
+  end
 end
