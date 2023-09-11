@@ -34,5 +34,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'activesupport', '~> 7.0'
   spec.add_dependency 'mutations', '~> 0.9'
   spec.add_dependency 'sidekiq', '~> 7.0'
-  spec.add_dependency 'zlib', '~> 3.0'
 end
