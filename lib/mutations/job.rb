@@ -6,6 +6,12 @@ require 'active_support/string_inquirer'
 
 module Mutations
   class Job < Mutations::Command
+    PREFIX = 'MJ'
+
+    def self.init!
+      Mutations::Job.descendants.map(&:to_job)
+    end
+
     # Create a job class dynamically and perform it asynchronously
     def self.perform_async(validate: true, **args)
       to_job.perform_async(job_args(validate:, **args))
@@ -23,7 +29,7 @@ module Mutations
           command_args = payload['payload']
           command_args = JSON.parse(command_args)
 
-          klass = self.class.name.delete_suffix('Job').constantize
+          klass = self.class.name.delete_suffix("::#{PREFIX}").constantize
           payload['validate'] ? klass.run!(**command_args) : klass.run(**command_args)
         rescue JSON::ParserError
           raise Mutations::Error, "Invalid JSON payload: #{payload['payload']}"
@@ -34,9 +40,8 @@ module Mutations
     end
 
     def self.to_job
-      job_name = "#{name}Job"
-      Object.const_defined?(job_name) || Object.const_set(job_name, new_job_class)
-      job_name.constantize
+      const_defined?(PREFIX) || const_set(PREFIX, new_job_class)
+      "#{name}::#{PREFIX}".constantize
     end
 
     def self.job_args(validate: true, **args)
