@@ -8,3 +8,4 @@ gemspec
 gem 'rake'
 gem 'rspec'
 gem 'rubocop'
+gem 'gem-release'
